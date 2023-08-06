@@ -17,7 +17,7 @@ class LocalDataFrameToExcelWriter(DataFrameWriter):
     
     def write(self, dataframe:pd.DataFrame, metadata: DataFrameMetaData)->None:
         if metadata.name:
-            dataframe.to_excel(os.path.join(self.basepath, metadata.name), index=False)
+            dataframe.to_excel(os.path.join(self.basepath, metadata.name), index=False, engine='xlsxwriter')
 
 class S3DataFrameToExcelWriter(DataFrameWriter):
     def __init__(self, bucket:str) -> None:
@@ -26,7 +26,7 @@ class S3DataFrameToExcelWriter(DataFrameWriter):
     
     def get_file_buffer(self, dataframe:pd.DataFrame):
         buffer = BytesIO()
-        dataframe.to_excel(buffer, index=False)
+        dataframe.to_excel(buffer, index=False, engine='xlsxwriter')
         buffer.seek(0)
         return buffer
     

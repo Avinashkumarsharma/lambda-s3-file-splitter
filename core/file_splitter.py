@@ -20,35 +20,15 @@ class ExcelBasicFileSpliter(FileSplitter):
         self.partition_key = partition_key
         super().__init__(minRows)
     
-    def _get_group_chunks(self, dataframe_grouped: DataFrameGroupBy)-> List[List[str]]:
-        rows_added = 0
-        chuncked_groups = []
-        groups = []        
-        for group_name, group_data in dataframe_grouped:
-            if (isinstance(group_name, tuple)):
-                groups.append(group_name[0])
-            else:
-                groups.append(group_name)
-            rows_added += len(group_data)
-            if rows_added > self.minChunkSize:
-                chuncked_groups.append(groups)
-                rows_added = 0
-                groups = []
-        if len(groups) > 0:
-            chuncked_groups.append(groups)
-        return chuncked_groups
-
     def generate_chunks(self)->pd.DataFrame:
         print(f'Reading file into memory filename = {self.reader.metadata.name}')
         df = self.reader.readDataFrame()
-        print(f'Grouping similar data based on partition key {str(self.partition_key)}')
-        grouped = df.groupby(self.partition_key, sort=False)
-        chunked_groups = self._get_group_chunks(grouped)
-        total_chunks = len(chunked_groups)
-        print(f'Total File Chunks = {total_chunks}')
-        for chunk_sequence, groups in enumerate(chunked_groups):
-            dataframe = pd.DataFrame()
-            for  group_name in groups:
-                dataframe = pd.concat([dataframe, grouped.get_group(group_name)], ignore_index=True)
-            yield chunk_sequence+1, total_chunks, dataframe
+        print(f'Grouping on key {str(self.partition_key)}')
+        grouped = df.groupby(self.partition_key, sort=False, as_index=False)
+        df = grouped.apply(lambda group: group).reset_index(drop=True)
+        # Calculate the total number of chunks based on the chunk size and DataFrame size
+        num_chunks = len(df) // self.minChunkSize + int(len(df) % self.minChunkSize != 0)
+        for i in range(num_chunks):
+            dataframe = df.iloc[i * self.minChunkSize: (i + 1) * self.minChunkSize]
+            yield i+1, num_chunks, dataframe
          

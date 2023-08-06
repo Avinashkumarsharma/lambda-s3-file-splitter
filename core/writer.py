@@ -32,9 +32,9 @@ class S3DataFrameToExcelWriter(DataFrameWriter):
     
     def write(self, dataframe:pd.DataFrame, metadata: DataFrameMetaData)->None:
         if metadata.name:
-            metadata = metadata.extra_data
             key = metadata.name
-            self.s3.put_object(Body=self.get_file_buffer(dataframe), Bucket=self.bucket, Key=key, Metadata=metadata)
+            custom_metadata = metadata.extra_data
+            self.s3.put_object(Body=self.get_file_buffer(dataframe), Bucket=self.bucket, Key=key, Metadata=custom_metadata)
         else:
             raise KeyError("Object Key/ File name not specified in the parameter")
     

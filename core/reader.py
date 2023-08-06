@@ -4,7 +4,7 @@ import boto3
 from pathlib import Path
 
 class DataFrameMetaData(object):
-    def __init__(self, name:str, extra_data = {}) -> None:
+    def __init__(self, name:str, extra_data: dict  = {}) -> None:
         self.name = name
         self.extra_data = extra_data
 

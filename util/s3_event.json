@@ -20,14 +20,14 @@
                 "s3SchemaVersion": "1.0",
                 "configurationId": "491e3f2e-f3c5-4182-93bd-314848db88f3",
                 "bucket": {
-                    "name": "gstrobo-raw-data",
+                    "name": "gstrobodevbucket",
                     "ownerIdentity": {
                         "principalId": "AJ1P044WPSKYC"
                     },
                     "arn": "arn:aws:s3:::gstrobo-raw-data"
                 },
                 "object": {
-                    "key": "bulkupload/TaxInvoice_Palmner+-+June23+%281%29.xlsx",
+                    "key": "testfile/TaxInvoice.xlsx",
                     "size": 866277,
                     "eTag": "cbb6f510ea8fd2e859d25a6219b727d7",
                     "sequencer": "0064C4EE420002F17C"

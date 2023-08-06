@@ -39,7 +39,9 @@ class ExcelBasicFileSpliter(FileSplitter):
         return chuncked_groups
 
     def generate_chunks(self)->pd.DataFrame:
+        print(f'Reading file into memory filename = {self.reader.metadata.name}')
         df = self.reader.readDataFrame()
+        print(f'Grouping similar data based on partition key {str(self.partition_key)}')
         grouped = df.groupby(self.partition_key, sort=False)
         chunked_groups = self._get_group_chunks(grouped)
         total_chunks = len(chunked_groups)

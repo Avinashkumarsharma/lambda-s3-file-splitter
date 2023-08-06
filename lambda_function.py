@@ -13,10 +13,12 @@ print('Loading function')
 
 def get_partion_key(datafile_reader: DataFrameReader)->Union[str, List[str]]:
     '''
-    Ideally this should read the actual mapping that needs to be used from the datafile metadata and then return accordingly.
-    Hardcoding right now
+    Make sure that the file has a sortkey defined 
+    upon which we  can group similar data together
     '''
-    return ['Invoice Number']
+    custom_metadata = datafile_reader.metadata.extra_data
+    partion_key = custom_metadata['sortkey']
+    return partion_key
 
 def get_write_s3_bucket():
     '''
@@ -48,6 +50,7 @@ def lambda_handler(event, context):
     # Get the object from the event and show its content type
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+    print(f'Started Processing file Bucket = {bucket} Key = {key}')
     excel_file = ExcelAmazonS3Reader(bucket=bucket, key=key)
     splitter = ExcelBasicFileSpliter(excel_file, partition_key=get_partion_key(excel_file), minRows=get_min_rows_per_chunk())
     splitted_chunks = splitter.generate_chunks()

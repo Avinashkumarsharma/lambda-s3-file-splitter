@@ -1,0 +1,38 @@
+{
+    "Records": [
+        {
+            "eventVersion": "2.1",
+            "eventSource": "aws:s3",
+            "awsRegion": "ap-south-1",
+            "eventTime": "2023-07-29T10:47:30.144Z",
+            "eventName": "ObjectCreated:Put",
+            "userIdentity": {
+                "principalId": "AWS:AIDA3XBZU7U44E5ZGVSYU"
+            },
+            "requestParameters": {
+                "sourceIPAddress": "182.69.180.148"
+            },
+            "responseElements": {
+                "x-amz-request-id": "WHBP8KZSGQP9FRJD",
+                "x-amz-id-2": "cheN/++E4ACEycu5Y+IrPQUz/jiOaAvjNBs5wsa1iCuxjFFU1cfUe8WiAZIbCmcv9EGjQN56kshdBN45kjVHwkcN9OWAgsC/"
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "491e3f2e-f3c5-4182-93bd-314848db88f3",
+                "bucket": {
+                    "name": "gstrobo-raw-data",
+                    "ownerIdentity": {
+                        "principalId": "AJ1P044WPSKYC"
+                    },
+                    "arn": "arn:aws:s3:::gstrobo-raw-data"
+                },
+                "object": {
+                    "key": "bulkupload/TaxInvoice_Palmner+-+June23+%281%29.xlsx",
+                    "size": 866277,
+                    "eTag": "cbb6f510ea8fd2e859d25a6219b727d7",
+                    "sequencer": "0064C4EE420002F17C"
+                }
+            }
+        }
+    ]
+}

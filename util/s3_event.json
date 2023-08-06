@@ -24,7 +24,7 @@
                     "ownerIdentity": {
                         "principalId": "AJ1P044WPSKYC"
                     },
-                    "arn": "arn:aws:s3:::gstrobo-raw-data"
+                    "arn": "arn:aws:s3:::gstrobodevbucket"
                 },
                 "object": {
                     "key": "testfile/TaxInvoice.xlsx",

@@ -25,7 +25,10 @@ class ExcelBasicFileSpliter(FileSplitter):
         chuncked_groups = []
         groups = []        
         for group_name, group_data in dataframe_grouped:
-            groups.append(group_name[0])
+            if (isinstance(group_name, tuple)):
+                groups.append(group_name[0])
+            else:
+                groups.append(group_name)
             rows_added += len(group_data)
             if rows_added > self.minChunkSize:
                 chuncked_groups.append(groups)
@@ -47,5 +50,3 @@ class ExcelBasicFileSpliter(FileSplitter):
                 dataframe = pd.concat([dataframe, grouped.get_group(group_name)], ignore_index=True)
             yield chunk_sequence+1, total_chunks, dataframe
          
-
-        

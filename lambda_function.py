@@ -67,10 +67,10 @@ def lambda_handler(event, context):
 '''
 This was made to write locally all the splitted excel file and test locally before deploying
 '''
-def test_local_handler():
-    excel_file = ExcelLocalFileReader('./build/TaxInvoice.xlsx') # make sure you give the correct path of the local file
+def test_local_handler(partion_key):
+    excel_file = ExcelLocalFileReader('./build/salesDataNew-3lac.xlsx') # make sure you give the correct path of the local file
     writer = LocalDataFrameToExcelWriter('./build') # make sure you have this folder locally
-    splitter = ExcelBasicFileSpliter(excel_file, partition_key=['Invoice Number'], minRows=300)
+    splitter = ExcelBasicFileSpliter(excel_file, partition_key=partion_key, minRows=get_min_rows_per_chunk())
     splitted_chuncks = splitter.generate_chunks()
     for chunk_number, total_chunks, chunk_dataframe in splitted_chuncks:
         print(f'Writing Chunk {chunk_number}/{total_chunks} for File = TaxInvoice')
@@ -92,7 +92,7 @@ if __name__ =='__main__':
     load_dotenv()
     
     # Comment out below for Testing Locally splitting and writing
-    # test_local_handler()
+    test_local_handler(partion_key = 'invoice number')
 
     #Comment out below for Testing with uploading the splitted file to s3 locally
     # test_lambda_handler()
